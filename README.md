@@ -1,3 +1,3 @@
 # ADB control
-ADB gui control Android devices
+ADB GUI control Android devices
 ![Screenshot](/screenshot.png)
