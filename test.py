@@ -8,12 +8,15 @@ import io
 import re
 import image
 import subprocess
+import inspect, os.path
 from array import array
 from pygame.locals import *
 from adb.client import Client as AdbClient
 
 warnings.filterwarnings("ignore")
 locale.setlocale(locale.LC_ALL, '')
+filename = inspect.getframeinfo(inspect.currentframe()).filename
+path     = os.path.dirname(os.path.abspath(filename))
 PIPE = subprocess.PIPE
 
 dev = subprocess.Popen(
@@ -28,8 +31,11 @@ pygame.init()
 
 size = width, height = 1024, 768
 screen = pygame.display.set_mode(size)
-pygame.display.set_caption('VNC control')
-icon_surf = pygame.image.load('android.png')
+pygame.display.set_caption('ADB control')
+filename = inspect.getframeinfo(inspect.currentframe()).filename
+path     = os.path.dirname(os.path.abspath(filename))
+
+icon_surf = pygame.image.load(path + '/android.png')
 pygame.display.set_icon(icon_surf)
 clock = pygame.time.Clock()
 while True:
