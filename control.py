@@ -48,6 +48,7 @@ while True:
         if event.type == MOUSEBUTTONDOWN:
             mousepos = pygame.mouse.get_pos()
             mousepos = str(mousepos[0]) + ' ' + str(mousepos[1])
+            print (f"input tap {mousepos}")
             device.shell(f"input tap {mousepos}")
     client = AdbClient(host="127.0.0.1", port=5037)
     device = client.device(f"{dev}")
