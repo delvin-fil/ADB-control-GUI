@@ -1,5 +1,6 @@
 # ADB control
 ADB GUI control Android devices
+Последняя рабочая версия ADB-control-GUI.py. Добавлена возможность ввода с клавиатуры.
 
 Необходимое:<br>
 python3.6, adb<br>
@@ -14,4 +15,3 @@ pygame, warnings, locale, sys, io, re, image, subprocess, inspect, os.path<br>
 	sudo adb devices<br>
 Если не планируется использовать WiFi, то в строке 23 файла control.py указываем имя Вашего устройства.
 
-Последняя рабочая версия ADB-control-GUI.py. Добавлена возможность ввода с клавиатуры.
