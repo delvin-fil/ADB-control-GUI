@@ -1,5 +1,6 @@
 # ADB control
 ADB GUI control Android devices
+
 Последняя рабочая версия ADB-control-GUI.py. Добавлена возможность ввода с клавиатуры.
 
 Необходимое:<br>
