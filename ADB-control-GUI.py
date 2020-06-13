@@ -11,14 +11,14 @@ import subprocess
 import inspect, os.path
 from array import array
 from pygame.locals import *
-
 from ppadb.client import Client as AdbClient
 
-#warnings.filterwarnings("ignore")
+warnings.filterwarnings("ignore")
 locale.setlocale(locale.LC_ALL, '')
+
 filename = inspect.getframeinfo(inspect.currentframe()).filename
 path     = os.path.dirname(os.path.abspath(filename))
-print (path)
+
 PIPE = subprocess.PIPE
 
 dev = subprocess.Popen(
@@ -28,21 +28,17 @@ dev = subprocess.Popen(
     shell=PIPE)
 dev = str(dev.stdout.read())
 dev = re.sub(r'b\'|\\n\'', r'', dev)
-#dev = '192.168.0.14:5555'
-#dev = 'CLD9BZOV54'
-print (dev)
+
 pygame.init()
 
 size = width, height = 1024, 768
 screen = pygame.display.set_mode(size)
 pygame.display.set_caption('ADB control')
-
 filename = inspect.getframeinfo(inspect.currentframe()).filename
 path     = os.path.dirname(os.path.abspath(filename))
 
-print (path)
-#icon_surf = pygame.image.load(path + '/android.png')
-icon_surf = pygame.image.load('/home/delvin/codding/adb/android.png')
+icon_surf = pygame.image.load(path + '/android.png')
+
 pygame.display.set_icon(icon_surf)
 clock = pygame.time.Clock()
 while True:
@@ -213,15 +209,14 @@ while True:
             mousepos = str(mousepos[0]) + ' ' + str(mousepos[1])
             print (f"input tap {mousepos}")
             device.shell(f"input tap {mousepos}")
+
     client = AdbClient(host="127.0.0.1", port=5037)
     device = client.device(f"{dev}")
     result = device.screencap()
     with open('screen.png', 'wb') as fp:
         fp.write(result)
     img = pygame.image.load(io.BytesIO(result))
-    #img = pygame.image.load(os.path.join('screen.png'))
-    #print (os.path())
     screen.blit(img, (0, 0))
     clock.tick(0.5)
     pygame.display.flip()
-#x11vnc -rfbport 5900 -display :0 -dontdisconnect -noxfixes -xdamage -shared -forever -clip 1792x1344+1792+0 -scale 1024x768 -bg -cursor X -o /root/tmp/x11vnc.log -repeat   
+
