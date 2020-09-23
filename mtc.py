@@ -15,27 +15,30 @@ from ppadb.client import Client as AdbClient
 
 warnings.filterwarnings("ignore")
 locale.setlocale(locale.LC_ALL, '')
+
 filename = inspect.getframeinfo(inspect.currentframe()).filename
 path     = os.path.dirname(os.path.abspath(filename))
+
 PIPE = subprocess.PIPE
 
 dev = subprocess.Popen(
-    "adb devices| awk '/device$/{if (NR!=1) {print $1}}'",
+    "adb -e devices| awk '/device$/{if (NR!=1) {print $1}}'",
     stderr=None,
     stdout=PIPE,
     shell=PIPE)
 dev = str(dev.stdout.read())
 dev = re.sub(r'b\'|\\n\'', r'', dev)
-
+print (dev)
 pygame.init()
 
-size = width, height = 1024, 768
-screen = pygame.display.set_mode(size,HWSURFACE|DOUBLEBUF|RESIZABLE)
+size = width, height = 320,480
+screen = pygame.display.set_mode(size)
 pygame.display.set_caption('ADB control')
 filename = inspect.getframeinfo(inspect.currentframe()).filename
 path     = os.path.dirname(os.path.abspath(filename))
 
 icon_surf = pygame.image.load(path + '/android.png')
+
 pygame.display.set_icon(icon_surf)
 clock = pygame.time.Clock()
 while True:
@@ -199,17 +202,21 @@ while True:
         if event.type == KEYDOWN:
             if event.key == K_PLUS:
                 os.system('adb -e shell input keyevent 81')
-                
+
+
         if event.type == MOUSEBUTTONDOWN:
             mousepos = pygame.mouse.get_pos()
             mousepos = str(mousepos[0]) + ' ' + str(mousepos[1])
             print (f"input tap {mousepos}")
             device.shell(f"input tap {mousepos}")
+
     client = AdbClient(host="127.0.0.1", port=5037)
     device = client.device(f"{dev}")
     result = device.screencap()
+    with open('screen.png', 'wb') as fp:
+        fp.write(result)
     img = pygame.image.load(io.BytesIO(result))
-    #img = pygame.transform.scale(img, (640, 960))
     screen.blit(img, (0, 0))
-    clock.tick(20)
+    clock.tick(0.5)
     pygame.display.flip()
+
